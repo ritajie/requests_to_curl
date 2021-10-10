@@ -1,4 +1,7 @@
-# requests_to_curl - convert python requests request object to cURL command
+# RequestsToCurl
+Convert python requests object to cURL command.
+
+This repository is improved based on [curlify](https://github.com/ofw/curlify). Since curlify does not seem to be updated anymore, no one responded to the PR I provided, so this repository was created.
 
 ## Installation
 ```sh
@@ -8,10 +11,18 @@ pip install requests_to_curl
 ## Usage
 
 ```py
-import requests_to_curl
-import requests
+>>> import requests_to_curl
+>>> import requests
+>>> response = requests.get("https://lulaolu.com")
+>>> requests_to_curl.parse(response)
+"curl -X GET -H 'Accept: */*' -H 'Accept-Encoding: gzip, deflate' -H 'Connection: keep-alive' -H 'User-Agent: python-requests/2.26.0' https://lulaolu.com:443/"
+```
 
-response = requests.get("http://google.ru")
-print(requests_to_curl.parse(response.request))
-# curl -X 'GET' -H 'Accept: */*' -H 'Accept-Encoding: gzip, deflate' -H 'Connection: keep-alive' -H 'User-Agent: python-requests/2.18.4' 'http://www.google.ru/'
+For convenience, you can also use `c2v` or `curl` instead of `requests_to_curl`
+```python3
+>>> import c2v
+>>> c2v.parse(response)  # ok!
+>>>
+>>> import curl
+>>> curl.parse(response)  # ok!
 ```

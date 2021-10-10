@@ -2,6 +2,7 @@
 
 import os
 from setuptools import setup, Command
+from setuptools import find_packages
 
 
 class CleanCommand(Command):
@@ -21,13 +22,18 @@ class CleanCommand(Command):
 # allow setup.py to be run from any path
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
+with open('README.md') as f:
+    readme = f.read()
 
 setup(
     name='requests_to_curl',
-    version='1.0.0',
+    version='1.0.3',
+    packages=find_packages(),
     include_package_data=True,
     install_requires=['requests'],
     license='MIT License',
+    long_description=readme,
+    long_description_content_type='text/markdown',
     description='Library to convert python requests object to curl command.',
     author='Deer',
     author_email='1551755561@qq.com',
