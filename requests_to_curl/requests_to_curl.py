@@ -15,25 +15,24 @@ def parse(request_or_response, compressed=False, verify=True):
     Args:
         request_or_response: requests.models.Request|requests.models.Response
 
-    Returns:
-        string: with curl command by provided request object
+    Print:
+        curl command
     """
     if isinstance(request_or_response, requests.models.Response):
         request = deepcopy(request_or_response.request)
-        connection_pool = request_or_response.connection.poolmanager.connection_from_url(request.url)
-        connection = connection_pool._get_conn()
+        connection_pool = request_or_response.connection.get_connection(request.url)
         http_scheme = connection_pool.scheme
         if http_scheme not in ('http', 'https'):
             http_scheme = 'http'
         request.url = '{scheme}://{host}:{port}{path_url}'.format(
-            scheme=http_scheme, host=connection.host, port=connection.port, path_url=request.path_url
+            scheme=http_scheme, host=connection_pool.host, port=connection_pool.port, path_url=request.path_url
         )
     elif isinstance(request_or_response, (requests.models.Request, requests.models.PreparedRequest)):
         request = deepcopy(request_or_response)
     else:
-        raise Exception("`to_curl` needs a request or response, not {}".format(type(request_or_response)))
+        raise Exception("`parse` needs a request or response, not {}".format(type(request_or_response)))
 
-    return _parse_request(request=request, compressed=compressed, verify=verify)
+    print(_parse_request(request=request, compressed=compressed, verify=verify))
 
 
 def _parse_request(request, compressed=False, verify=True):

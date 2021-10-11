@@ -27,7 +27,7 @@ with open('README.md') as f:
 
 setup(
     name='requests_to_curl',
-    version='1.0.4',
+    version='1.0.5',
     packages=find_packages(),
     include_package_data=True,
     install_requires=['requests'],
