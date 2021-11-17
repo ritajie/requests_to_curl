@@ -24,8 +24,12 @@ def parse(request_or_response, compressed=False, verify=True):
         http_scheme = connection_pool.scheme
         if http_scheme not in ('http', 'https'):
             http_scheme = 'http'
+        host = connection_pool.host
+        is_ipv6 = ":" in host
+        if is_ipv6:
+            host = "[{}]".format(host)
         request.url = '{scheme}://{host}:{port}{path_url}'.format(
-            scheme=http_scheme, host=connection_pool.host, port=connection_pool.port, path_url=request.path_url
+            scheme=http_scheme, host=host, port=connection_pool.port, path_url=request.path_url
         )
     elif isinstance(request_or_response, (requests.models.Request, requests.models.PreparedRequest)):
         request = deepcopy(request_or_response)
