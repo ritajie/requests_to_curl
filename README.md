@@ -11,18 +11,18 @@ pip install requests_to_curl
 ## Usage
 
 ```py
->>> import requests_to_curl
+>>> import curl
 >>> import requests
 >>> response = requests.get("https://lulaolu.com")
->>> requests_to_curl.parse(response)
-"curl -X GET -H 'Accept: */*' -H 'Accept-Encoding: gzip, deflate' -H 'Connection: keep-alive' -H 'User-Agent: python-requests/2.26.0' https://lulaolu.com:443/"
+>>> curl.parse(response)
+curl -X GET -H 'Accept: */*' -H 'Accept-Encoding: gzip, deflate' -H 'Connection: keep-alive' -H 'User-Agent: python-requests/2.27.1' https://lulaolu.com:443/
 ```
 
-For convenience, you can also use `r2c` or `curl` instead of `requests_to_curl`
+you can also use `r2c` or `requests_to_curl` instead of `curl`
 ```python3
 >>> import r2c
 >>> r2c.parse(response)  # ok!
 >>>
->>> import curl
->>> curl.parse(response)  # ok!
+>>> import requests_to_curl
+>>> requests_to_curl.parse(response)  # ok!
 ```

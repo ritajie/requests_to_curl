@@ -9,11 +9,16 @@ if sys.version_info.major >= 3:
 else:
     from pipes import quote
 
+HEADER_BLOCKLIST = {
+    "Content-Length",
+}
 
-def parse(request_or_response, compressed=False, verify=True):
+
+def parse(request_or_response, compressed=False, verify=True, return_it=False):
     """
     Args:
         request_or_response: requests.models.Request|requests.models.Response
+        return_it: False=return None. True=return the string
 
     Print:
         curl command
@@ -36,12 +41,17 @@ def parse(request_or_response, compressed=False, verify=True):
     else:
         raise Exception("`parse` needs a request or response, not {}".format(type(request_or_response)))
 
-    print(_parse_request(request=request, compressed=compressed, verify=verify))
+    curl_string = _parse_request(request=request, compressed=compressed, verify=verify)
+    print(curl_string)
+    if return_it:
+        return curl_string
 
 
 def _parse_request(request, compressed=False, verify=True):
     parts = [('curl', None), ('-X', request.method)]
     for k, v in sorted(request.headers.items()):
+        if k in HEADER_BLOCKLIST:
+            continue
         parts += [('-H', '{0}: {1}'.format(k, v))]
     if request.body:
         body = request.body
