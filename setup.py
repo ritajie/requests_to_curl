@@ -1,5 +1,10 @@
 # coding: utf-8
-
+"""
+HOW TO RELEASE
+$ pip install twine
+$ python setup.py sdist build
+$ twine upload dist/*
+"""
 import os
 from setuptools import setup, Command
 from setuptools import find_packages
