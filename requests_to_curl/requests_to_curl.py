@@ -14,7 +14,7 @@ HEADER_BLOCKLIST = {
 }
 
 
-def parse(request_or_response, compressed=False, verify=True, return_it=False):
+def parse(request_or_response, compressed=False, verify=False, return_it=True):
     """
     Args:
         request_or_response: requests.models.Request|requests.models.Response
@@ -42,7 +42,6 @@ def parse(request_or_response, compressed=False, verify=True, return_it=False):
         raise Exception("`parse` needs a request or response, not {}".format(type(request_or_response)))
 
     curl_string = _parse_request(request=request, compressed=compressed, verify=verify)
-    print(curl_string)
     if return_it:
         return curl_string
 
