@@ -14,7 +14,9 @@ HEADER_BLOCKLIST = {
 }
 
 
-def parse(request_or_response, compressed=False, verify=True, return_it=True):
+def parse(
+    request_or_response, compressed=False, verify=True, return_it=False, print_it=True
+):
     """
     Args:
         request_or_response: requests.models.Request|requests.models.Response
@@ -51,6 +53,8 @@ def parse(request_or_response, compressed=False, verify=True, return_it=True):
         )
 
     curl_string = _parse_request(request=request, compressed=compressed, verify=verify)
+    if print_it:
+        print(curl_string)
     if return_it:
         return curl_string
 
