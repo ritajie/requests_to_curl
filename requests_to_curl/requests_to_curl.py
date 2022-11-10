@@ -21,6 +21,7 @@ def parse(
     Args:
         request_or_response: requests.models.Request|requests.models.Response
         return_it: False=return None. True=return the string
+        print_it: False=Do Nothing. True=Print parsed string to stdout.
 
     Print:
         curl command
