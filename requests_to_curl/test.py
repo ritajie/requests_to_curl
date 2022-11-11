@@ -13,13 +13,12 @@ class Test(unittest.TestCase):
             headers={"user-agent": "mytest"},
         )
         self.assertEqual(
-            parse(r.request),
+            parse(r.request, return_it=True, print_it=False),
             (
                 "curl -X POST "
                 "-H 'Accept: */*' "
                 "-H 'Accept-Encoding: gzip, deflate' "
                 "-H 'Connection: keep-alive' "
-                "-H 'Content-Length: 0' "
                 "-H 'user-agent: mytest' "
                 "http://google.ru/"
             )
@@ -31,13 +30,12 @@ class Test(unittest.TestCase):
             headers={"user-agent": "mytest"},
         )
         self.assertEqual(
-            parse(r),
+            parse(r, return_it=True, print_it=False),
             (
                 "curl -X POST "
                 "-H 'Accept: */*' "
                 "-H 'Accept-Encoding: gzip, deflate' "
                 "-H 'Connection: keep-alive' "
-                "-H 'Content-Length: 0' "
                 "-H 'user-agent: mytest' "
                 "http://google.ru:80/"
             )
@@ -52,13 +50,12 @@ class Test(unittest.TestCase):
             headers={"user-agent": "mytest"},
         )
         self.assertEqual(
-            parse(r.request),
+            parse(r.request, return_it=True, print_it=False),
             (
                 "curl -X GET "
                 "-H 'Accept: */*' "
                 "-H 'Accept-Encoding: gzip, deflate' "
                 "-H 'Connection: keep-alive' "
-                "-H 'Content-Length: 3' "
                 "-H 'Content-Type: application/x-www-form-urlencoded' "
                 "-H 'Cookie: foo=bar' "
                 "-H 'user-agent: mytest' "
@@ -74,7 +71,7 @@ class Test(unittest.TestCase):
         )
 
         self.assertEqual(
-            parse(request.prepare()),
+            parse(request.prepare(), return_it=True, print_it=False),
             (
                 "curl -X GET "
                 "-H 'user-agent: UA' "
@@ -89,7 +86,7 @@ class Test(unittest.TestCase):
             headers={"user-agent": "UA"},
         )
         self.assertEqual(
-            parse(request.prepare(), compressed=True),
+            parse(request.prepare(), compressed=True, return_it=True, print_it=False),
             "curl -X GET -H 'user-agent: UA' --compressed http://google.ru/",
         )
 
@@ -100,7 +97,7 @@ class Test(unittest.TestCase):
             headers={"user-agent": "UA"},
         )
         self.assertEqual(
-            parse(request.prepare(), verify=False),
+            parse(request.prepare(), verify=False, return_it=True, print_it=False),
             "curl -X GET -H 'user-agent: UA' --insecure http://google.ru/",
         )
 
@@ -110,10 +107,10 @@ class Test(unittest.TestCase):
         url = 'https://httpbin.org/post'
 
         r = requests.Request('POST', url, json=data)
-        curlified = parse(r.prepare())
+        curlified = parse(r.prepare(), return_it=True, print_it=False)
 
         self.assertEqual(curlified, (
-            "curl -X POST -H 'Content-Length: 14' "
+            "curl -X POST "
             "-H 'Content-Type: application/json' "
             "-d '{\"foo\": \"bar\"}' https://httpbin.org/post"
         ))
@@ -127,11 +124,10 @@ class Test(unittest.TestCase):
             headers={'User-agent': 'UA'}
         )
 
-        curlified = parse(r.prepare())
+        curlified = parse(r.prepare(), return_it=True, print_it=False)
         boundary = re.search(r'boundary=(\w+)', curlified).group(1)
-
         expected = (
-            'curl -X POST -H \'Content-Length: 519\''
+            'curl -X POST'
             f' -H \'Content-Type: multipart/form-data; boundary={boundary}\''
             ' -H \'User-agent: UA\''
             f' -d \'--{boundary}\r\nContent-Disposition: form-data; name="file"; filename="data.csv"\r\n\r\n'
