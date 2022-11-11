@@ -25,6 +25,11 @@ If you want to get the curl string in the code project, use `return_it`
 >>> print(c)
 ```
 
+If you want to hide stdout, use `print_it=False`
+```python3
+>>> c = curl.parse(response, print_it=False)
+```
+
 You can also use `r2c` or `requests_to_curl` instead of `curl`
 ```python3
 >>> import r2c
