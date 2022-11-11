@@ -90,3 +90,6 @@ ENV/
 .ropeproject
 
 .pytest_cache
+
+# VSCode
+.vscode/
