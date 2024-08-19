@@ -31,8 +31,8 @@ def parse(request_or_response, compressed=False, verify=True, return_it=False, p
 
     def _build_url(connection_pool, request):
         scheme = connection_pool.scheme if connection_pool.scheme in ("http", "https") else "http"
-        host = f"[{connection_pool.host}]" if ":" in connection_pool.host else connection_pool.host
-        return f"{scheme}://{host}:{connection_pool.port}{request.path_url}"
+        host = "[{}]".format(connection_pool.host) if ":" in connection_pool.host else connection_pool.host
+        return "{}://{}:{}{}".format(scheme, host, connection_pool.port, request.path_url)
 
     if isinstance(request_or_response, requests.models.Response):
         request = deepcopy(request_or_response.request)
@@ -41,7 +41,7 @@ def parse(request_or_response, compressed=False, verify=True, return_it=False, p
     elif isinstance(request_or_response, (requests.models.Request, requests.models.PreparedRequest)):
         request = deepcopy(request_or_response)
     else:
-        raise TypeError(f"`parse` needs a request or response, not {type(request_or_response).__name__}")
+        raise TypeError("`parse` needs a request or response, not {}".format(type(request_or_response).__name__))
 
     curl_string = _parse_request(request=request, compressed=compressed, verify=verify)
 
@@ -56,7 +56,7 @@ def _parse_request(request, compressed=False, verify=True):
 
     # Add headers, skipping blocklisted ones
     headers = [
-        ("-H", f"{k}: {v}")
+        ("-H", "{}: {}".format(k, v))
         for k, v in sorted(request.headers.items())
         if k not in HEADER_BLOCKLIST
     ]
