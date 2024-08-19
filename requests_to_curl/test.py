@@ -127,15 +127,15 @@ class Test(unittest.TestCase):
         curlified = parse(r.prepare(), return_it=True, print_it=False)
         boundary = re.search(r'boundary=(\w+)', curlified).group(1)
         expected = (
-            'curl -X POST'
-            ' -H \'Content-Type: multipart/form-data; boundary={boundary}\''.format(boundary=boundary) +
-            ' -H \'User-agent: UA\''
-            ' -d \'--{boundary}\r\nContent-Disposition: form-data; name="file"; filename="data.csv"\r\n\r\n'.format(boundary=boundary) +
-            '"Id";"Title";"Content"\n'
-            '1;"Simple Test";"Ici un test d\'"\'"\'échappement de simple quote"\n'
-            '2;"UTF-8 Test";"ăѣ𝔠ծềſģȟᎥ𝒋ǩľḿꞑȯ𝘱𝑞𝗋𝘴ȶ𝞄𝜈ψ𝒙𝘆𝚣1234567890!@#$%^&*()-_=+;:\'"\'"\'",[]{}<.>/?~𝘈Ḇ𝖢𝕯٤ḞԍНǏ𝙅ƘԸⲘ𝙉০Ρ𝗤Ɍ𝓢ȚЦ𝒱Ѡ𝓧ƳȤѧᖯć𝗱ễ𝑓𝙜Ⴙ𝞲𝑗𝒌ļṃŉо𝞎𝒒ᵲꜱ𝙩ừ𝗏ŵ𝒙𝒚ź"' +
-            '\r\n--{boundary}--\r\n\''.format(boundary=boundary) +
-            ' https://httpbin.org/post'
+            u'curl -X POST'
+            u' -H \'Content-Type: multipart/form-data; boundary={boundary}\''.format(boundary=boundary) +
+            u' -H \'User-agent: UA\''
+            u' -d \'--{boundary}\r\nContent-Disposition: form-data; name="file"; filename="data.csv"\r\n\r\n'.format(boundary=boundary) +
+            u'"Id";"Title";"Content"\n'
+            u'1;"Simple Test";"Ici un test d\'"\'"\'échappement de simple quote"\n'
+            u'2;"UTF-8 Test";"ăѣ𝔠ծềſģȟᎥ𝒋ǩľḿꞑȯ𝘱𝑞𝗋𝘴ȶ𝞄𝜈ψ𝒙𝘆𝚣1234567890!@#$%^&*()-_=+;:\'"\'"\'",[]{}<.>/?~𝘈Ḇ𝖢𝕯٤ḞԍНǏ𝙅ƘԸⲘ𝙉০Ρ𝗤Ɍ𝓢ȚЦ𝒱Ѡ𝓧ƳȤѧᖯć𝗱ễ𝑓𝙜Ⴙ𝞲𝑗𝒌ļṃŉо𝞎𝒒ᵲꜱ𝙩ừ𝗏ŵ𝒙𝒚ź"' +
+            u'\r\n--{boundary}--\r\n\''.format(boundary=boundary) +
+            u' https://httpbin.org/post'
         )
         self.assertEqual(curlified, expected)
 
