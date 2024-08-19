@@ -10,7 +10,7 @@ class Test(unittest.TestCase):
     def test_empty_data(self):
         r = requests.post(
             "http://google.ru",
-            headers={"user-agent": "mytest"},
+            headers={"user-agent": "mytst"},
         )
         self.assertEqual(
             parse(r.request, return_it=True, print_it=False),
