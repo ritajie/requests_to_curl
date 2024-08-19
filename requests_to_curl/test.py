@@ -128,13 +128,13 @@ class Test(unittest.TestCase):
         boundary = re.search(r'boundary=(\w+)', curlified).group(1)
         expected = (
             'curl -X POST'
-            f' -H \'Content-Type: multipart/form-data; boundary={boundary}\''
+            ' -H \'Content-Type: multipart/form-data; boundary={boundary}\''.format(boundary=boundary) +
             ' -H \'User-agent: UA\''
-            f' -d \'--{boundary}\r\nContent-Disposition: form-data; name="file"; filename="data.csv"\r\n\r\n'
+            ' -d \'--{boundary}\r\nContent-Disposition: form-data; name="file"; filename="data.csv"\r\n\r\n'.format(boundary=boundary) +
             '"Id";"Title";"Content"\n'
             '1;"Simple Test";"Ici un test d\'"\'"\'échappement de simple quote"\n'
-            '2;"UTF-8 Test";"ăѣ𝔠ծềſģȟᎥ𝒋ǩľḿꞑȯ𝘱𝑞𝗋𝘴ȶ𝞄𝜈ψ𝒙𝘆𝚣1234567890!@#$%^&*()-_=+;:\'"\'"\'",[]{}<.>/?~𝘈Ḇ𝖢𝕯٤ḞԍНǏ𝙅ƘԸⲘ𝙉০Ρ𝗤Ɍ𝓢ȚЦ𝒱Ѡ𝓧ƳȤѧᖯć𝗱ễ𝑓𝙜Ⴙ𝞲𝑗𝒌ļṃŉо𝞎𝒒ᵲꜱ𝙩ừ𝗏ŵ𝒙𝒚ź"'
-            f'\r\n--{boundary}--\r\n\''
+            '2;"UTF-8 Test";"ăѣ𝔠ծềſģȟᎥ𝒋ǩľḿꞑȯ𝘱𝑞𝗋𝘴ȶ𝞄𝜈ψ𝒙𝘆𝚣1234567890!@#$%^&*()-_=+;:\'"\'"\'",[]{}<.>/?~𝘈Ḇ𝖢𝕯٤ḞԍНǏ𝙅ƘԸⲘ𝙉০Ρ𝗤Ɍ𝓢ȚЦ𝒱Ѡ𝓧ƳȤѧᖯć𝗱ễ𝑓𝙜Ⴙ𝞲𝑗𝒌ļṃŉо𝞎𝒒ᵲꜱ𝙩ừ𝗏ŵ𝒙𝒚ź"' +
+            '\r\n--{boundary}--\r\n\''.format(boundary=boundary) +
             ' https://httpbin.org/post'
         )
         self.assertEqual(curlified, expected)
